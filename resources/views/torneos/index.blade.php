@@ -7,17 +7,24 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
+
 <div class="container mt-5">
     <h1 class="mb-4 text-center">Lista de Torneos</h1>
 
-    <table class="table table-striped table-hover table-bordered">
+    <div class="mb-3 text-end">
+        <a href="{{ route('torneos.crear') }}" class="btn btn-primary">Crear Torneo</a>
+        <a href="#" class="btn btn-secondary">Iniciar Sesión</a>
+    </div>
+
+    <table class="table table-striped table-hover table-bordered shadow-sm bg-white">
         <thead class="table-dark">
             <tr>
                 <th>ID</th>
-                <th>Titulo</th>
+                <th>Título</th>
                 <th>Plazas</th>
-                <th>Guego</th>
+                <th>Juego</th>
+                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -29,17 +36,45 @@
                 <td>{{ $torneo->plazas }}</td>
                 <td>{{ $torneo->juego }}</td>
                 <td>
-                    <a href="#" class="btn btn-sm btn-info">Ver mas</a>
-                    <a href="#" class="btn btn-sm btn-warning">Cerrar</a>
-                    <a href="#" class="btn btn-sm btn-danger">Eliminar</a>
+                    @if($torneo->estado)
+                        <span class="badge bg-success">Abierto</span>
+                    @else
+                        <span class="badge bg-danger">Cerrado</span>
+                    @endif
+                </td>
+                <td>
+                    <!-- Botón Abrir / Cerrar -->
+                    @if($torneo->estado)
+                        <form action="{{ route('torneos.cerrar', $torneo->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('PUT')
+                            <button class="btn btn-sm btn-warning">Cerrar</button>
+                        </form>
+                    @else
+                        <form action="{{ route('torneos.abrir', $torneo->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('PUT')
+                            <button class="btn btn-sm btn-success">Abrir</button>
+                        </form>
+                    @endif
+
+                    <!-- Botón Ver -->
+                    <a href="{{ route('torneos.show', $torneo->id) }}" class="btn btn-sm btn-info">Ver</a>
+
+                    <!-- Botón Eliminar -->
+                    <form action="{{ route('torneos.destroy', $torneo->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este torneo?')">Eliminar</button>
+                    </form>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
+
 </div>
 
-<!-- Bootstrap JS (opcional) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

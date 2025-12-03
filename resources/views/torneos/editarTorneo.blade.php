@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+
+
+        <form action="{{ route('torneos.store') }}" method="POST">
+        @csrf
+
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título</label>
+            <input type="text" name="titulo" id="titulo" class="form-control" value="{{ old('titulo') }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="plazas" class="form-label">Plazas</label>
+            <input type="number" name="plazas" id="plazas" class="form-control" value="{{ old('plazas') }}" required min="1">
+        </div>
+
+        <div class="mb-3">
+            <label for="juego" class="form-label">Juego</label>
+            <input type="text" name="juego" id="juego" class="form-control" value="{{ old('juego') }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="estado" class="form-label">Estado</label>
+            <select name="estado" id="estado" class="form-select" required>
+                <option value="abierto" {{ old('estado') == 'abierto' ? 'selected' : '' }}>Abierto</option>
+                <option value="cerrado" {{ old('estado') == 'cerrado' ? 'selected' : '' }}>Cerrado</option>
+            </select>
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a href="{{ route('torneos.index') }}" class="btn btn-secondary">Volver</a>
+            <button type="submit" class="btn btn-primary">Crear Torneo</button>
+        </div>
+    </form>
+    
+</body>
+</html>

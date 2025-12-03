@@ -18,15 +18,47 @@ class TorneoController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('torneos.crearTorneo');
+
     }
+
 
     /**
      * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+        */
+    public function store(Request $request){
+        $validated = $request->validate([
+            'juego' => 'required|string|max:255',
+            'titulo' => 'required|string|max:255',
+            'plazas' => 'required|integer|min:1',
+            'estado' => 'required|in:abierto,cerrado',
+            'descripcion' => 'nullable|string',
+        ]);
+
+        // Convertir "abierto"/"cerrado" a boolean
+        $validated['estado'] = $validated['estado'] === 'abierto';
+
+        Torneo::create($validated);
+
+        return redirect()->route('torneos.index');
+    }
+
+
+
+    public function cerrar(string $id)
     {
-        //
+        $torneo = Torneo::findOrFail($id);
+        $torneo->estado = false;
+        $torneo->save();
+        return redirect()->route('torneos.index');
+    }
+    public function abrir(string $id)
+    {
+        $torneo = Torneo::findOrFail($id);
+        $torneo->estado = true;
+        $torneo->save();
+        return redirect()->route('torneos.index');
     }
     
 
@@ -35,7 +67,9 @@ class TorneoController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $torneo = Torneo::findOrFail($id);
+        return view('torneos.verTorneo', ['torneo' => $torneo]);
+        
     }
 
     /**
@@ -59,6 +93,8 @@ class TorneoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $torneo = Torneo::findOrFail($id);
+        $torneo->delete();
+        return redirect()->route('torneos.index');
     }
 }

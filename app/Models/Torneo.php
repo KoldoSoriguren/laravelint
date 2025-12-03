@@ -29,5 +29,6 @@ class Torneo extends Model
      */
     protected $casts = [
         'plazas' => 'integer',
+        'estado' => 'boolean', // true para "abierto", false para "cerrado"
     ];
 }
