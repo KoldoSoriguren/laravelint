@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cookie;
 use App\Models\Users;
 class UserController extends Controller
 {
@@ -49,6 +50,10 @@ class UserController extends Controller
 
         // Redirigir a la página de inicio de sesión
         return redirect()->route('torneos.index');
+    }
+    public function cambiarIdioma(Request $request){
+        Cookie::queue('idioma', $request->idioma, 60*24*30); // 30 días
+        return back();
     }
 
 

@@ -8,6 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
+@php
+    $idioma = Cookie::get('idioma');
+@endphp
 
 <div class="container mt-5">
     <h1 class="mb-4 text-center">Lista de Torneos</h1>
@@ -25,12 +28,23 @@
     <table class="table table-striped table-hover table-bordered shadow-sm bg-white">
         <thead class="table-dark">
             <tr>
-                <th>ID</th>
-                <th>Título</th>
-                <th>Plazas</th>
-                <th>Juego</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                @if ($idioma == 'Euskera')
+                    <th>ID</th>
+                    <th>Izenburua</th>
+                    <th>Plazak</th>
+                    <th>Jokoa</th>
+                    <th>Egoera</th>
+                    <th>Ekintzak</th>
+
+                @else
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Plazas</th>
+                    <th>Juego</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                @endif
+
             </tr>
         </thead>
         <tbody>
@@ -82,6 +96,18 @@
                 </td>
             </tr>
             @endforeach
+
+
+
+            <form action="{{ route('idioma.cambiar') }}" method="POST">
+                <label for="idioma" class="form-label">Cambiar idioma</label>
+                <select name="idioma" id="idioma" class="form-select" required>
+                    <option value="Euskera">Euskera</option>
+                    <option value="Castellano">Castellano</option>
+                </select>
+                <button type="submit" class="btn btn-primary mt-2">Cambiar</button>
+
+            </form>
         </tbody>
     </table>
 

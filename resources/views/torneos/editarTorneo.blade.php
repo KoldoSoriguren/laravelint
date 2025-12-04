@@ -8,10 +8,7 @@
 
 </head>
 <body>
-
-
-
-        <form action="{{ route('torneos.store') }}" method="POST">
+    <form action="{{ route('torneos.store') }}" method="POST">
         @csrf
 
         <div class="mb-3">

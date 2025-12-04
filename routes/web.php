@@ -27,3 +27,5 @@ Route::get('/sesion/iniciar', [UserController::class, 'iniciar'])->name('sesion.
 Route::post('/sesion/iniciada', [UserController::class, 'login'])->name('sesion.iniciada');
 
 Route::get('/sesion/cerrar', [UserController::class, 'logout'])->name('sesion.cerrar');
+
+Route::post('/idioma/cambiar', [UserController::class, 'cambiarIdioma'])->name('idioma.cambiar');
