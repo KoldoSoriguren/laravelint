@@ -26,8 +26,9 @@
             </p>
             <p><strong>Descripción:</strong> {{ $torneo->descripcion ?? 'Sin descripción' }}</p>
         </div>
+       
         <div class="card-footer d-flex justify-content-between">
-            <!-- Botón Abrir/Cerrar -->
+            @if(session('user'))
             @if($torneo->estado)
                 <form action="{{ route('torneos.cerrar', $torneo->id) }}" method="POST" style="display:inline;">
                     @csrf
@@ -41,6 +42,11 @@
                     <button class="btn btn-success">Abrir Torneo</button>
                 </form>
             @endif
+
+
+            @endif
+            <!-- Botón Abrir/Cerrar -->
+            
 
             <!-- Botón Eliminar -->
             <form action="{{ route('torneos.destroy', $torneo->id) }}" method="POST" style="display:inline;">

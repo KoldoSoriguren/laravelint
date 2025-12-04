@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TorneoController;
-
+use App\Http\Controllers\UserController;
 Route::get('/', function () {
     return view('welcome');
 });
@@ -22,3 +22,8 @@ Route::get('/torneos/{id}/ver', [TorneoController::class, 'show'])->name('torneo
 
 Route::get('/torneos/crear', [TorneoController::class, 'create'])->name('torneos.crear');
 Route::post('/torneos', [TorneoController::class, 'store'])->name('torneos.store');
+
+Route::get('/sesion/iniciar', [UserController::class, 'iniciar'])->name('sesion.iniciar');
+Route::post('/sesion/iniciada', [UserController::class, 'login'])->name('sesion.iniciada');
+
+Route::get('/sesion/cerrar', [UserController::class, 'logout'])->name('sesion.cerrar');

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use App\Models\Users;
 class UserController extends Controller
 {
     /**
@@ -13,6 +15,42 @@ class UserController extends Controller
     {
         //
     }
+    public function iniciar()
+    {
+        return view('sesion.iniciarSesion');
+    }
+
+    public function login(Request $request){
+        // Validar campos
+        $credentials = $request->validate([
+            'usuario' => 'required|string',
+            'contrasena' => 'required|string',
+        ]);
+
+        // Buscar usuario en la base de datos
+        $user = Users::where('usuario', $credentials['usuario'])
+                    ->where('contrasena', $credentials['contrasena'])
+                    ->first();
+
+        if ($user) {
+            // Guardar datos en la sesión
+            Session::put('user', $user->usuario);
+
+            // Redirigir al dashboard o página principal
+            return redirect()->route('torneos.index');
+        }
+
+        // Si falla, volver con mensaje de error
+        return redirect()->back()->withErrors(['mensaje' => 'Credenciales incorrectas'])->withInput();
+    }
+    public function logout(Request $request){
+        // Cerrar sesión
+        Session::forget('user');
+
+        // Redirigir a la página de inicio de sesión
+        return redirect()->route('torneos.index');
+    }
+
 
     /**
      * Show the form for creating a new resource.

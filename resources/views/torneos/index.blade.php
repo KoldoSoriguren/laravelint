@@ -14,7 +14,12 @@
 
     <div class="mb-3 text-end">
         <a href="{{ route('torneos.crear') }}" class="btn btn-primary">Crear Torneo</a>
-        <a href="#" class="btn btn-secondary">Iniciar Sesión</a>
+        @if(!session('user'))
+            <a href="{{ route('sesion.iniciar') }}" class="btn btn-secondary">Iniciar Sesión</a>
+        @else
+            <a href="{{ route('sesion.cerrar') }}" class="btn btn-danger">Cerrar Sesión</a>
+
+        @endif
     </div>
 
     <table class="table table-striped table-hover table-bordered shadow-sm bg-white">
@@ -43,30 +48,37 @@
                     @endif
                 </td>
                 <td>
-                    <!-- Botón Abrir / Cerrar -->
-                    @if($torneo->estado)
-                        <form action="{{ route('torneos.cerrar', $torneo->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('PUT')
-                            <button class="btn btn-sm btn-warning">Cerrar</button>
-                        </form>
-                    @else
-                        <form action="{{ route('torneos.abrir', $torneo->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('PUT')
-                            <button class="btn btn-sm btn-success">Abrir</button>
-                        </form>
+                    @if(session('user'))
+                            <!-- Botón Abrir / Cerrar -->
+                        @if($torneo->estado)
+                            <form action="{{ route('torneos.cerrar', $torneo->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('PUT')
+                                <button class="btn btn-sm btn-warning">Cerrar</button>
+                            </form>
+                        @else
+                            <form action="{{ route('torneos.abrir', $torneo->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('PUT')
+                                <button class="btn btn-sm btn-success">Abrir</button>
+                            </form>
+                        @endif                        
                     @endif
 
+                        
                     <!-- Botón Ver -->
                     <a href="{{ route('torneos.show', $torneo->id) }}" class="btn btn-sm btn-info">Ver</a>
 
-                    <!-- Botón Eliminar -->
-                    <form action="{{ route('torneos.destroy', $torneo->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este torneo?')">Eliminar</button>
-                    </form>
+                    @if(session('user'))
+                        <!-- Botón Eliminar -->
+                        <form action="{{ route('torneos.destroy', $torneo->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de eliminar este torneo?')">Eliminar</button>
+                        </form>                            
+
+                    @endif
+
                 </td>
             </tr>
             @endforeach
