@@ -100,6 +100,7 @@
 
 
             <form action="{{ route('idioma.cambiar') }}" method="POST">
+                @csrf
                 <label for="idioma" class="form-label">Cambiar idioma</label>
                 <select name="idioma" id="idioma" class="form-select" required>
                     <option value="Euskera">Euskera</option>

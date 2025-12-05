@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Juego;
 
 use Illuminate\Http\Request;
 
@@ -9,9 +10,16 @@ class JuegoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function index(){
+        
+    
+    }
+    public function show(string $id){
+
+    }
+    public function showAll(){
+        $var = Juego::all();
+        return view('torneos.crearTorneo', ['var'=>$var]);
     }
 
     /**
@@ -33,10 +41,7 @@ class JuegoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.

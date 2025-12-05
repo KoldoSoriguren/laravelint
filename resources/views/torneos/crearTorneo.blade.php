@@ -24,7 +24,11 @@
 
         <div class="mb-3">
             <label for="juego" class="form-label">Juego</label>
-            <input type="text" name="juego" id="juego" class="form-control" value="{{ old('juego') }}" required>
+            <select name="juego" id="juego" class="form-select" required>
+                @foreach($var as $juego)
+                    <option value="{{ $juego->id }}">{{ $juego->nombre }}</option>
+                @endforeach
+            </select>
         </div>
 
         <div class="mb-3">

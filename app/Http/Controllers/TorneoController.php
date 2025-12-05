@@ -29,7 +29,7 @@ class TorneoController extends Controller
         */
     public function store(Request $request){
         $validated = $request->validate([
-            'juego' => 'required|string|max:255',
+            'juego' => 'required|exists:juegos,id',
             'titulo' => 'required|string|max:255',
             'plazas' => 'required|integer|min:1',
             'estado' => 'required|in:abierto,cerrado',

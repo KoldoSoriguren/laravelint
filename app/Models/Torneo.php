@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 
 class Torneo extends Model
 {
@@ -15,7 +17,7 @@ class Torneo extends Model
      * @var array
      */
     protected $fillable = [
-        'juego',
+        'juego_id',
         'titulo',
         'plazas',
         'estado',      // "abierto" o "cerrado"
@@ -31,4 +33,7 @@ class Torneo extends Model
         'plazas' => 'integer',
         'estado' => 'boolean', // true para "abierto", false para "cerrado"
     ];
+    public function juego(): BelongsTo{
+        return $this->belongsTo(Juego::class, 'juego');
+    }
 }
