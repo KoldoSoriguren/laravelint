@@ -21,13 +21,14 @@
     <div class="d-flex justify-content-between mb-4">
       
         <div>
-            @if(!session('user'))
-             
-                <a href="{{ route('sesion.iniciar') }}" class="btn btn-secondary">Iniciar Sesión</a>
-            @else
+            @auth
                 <a href="{{ route('torneos.crear') }}" class="btn btn-primary">Crear Torneo</a>
                 <a href="{{ route('sesion.cerrar') }}" class="btn btn-danger">Cerrar Sesión</a>
-            @endif
+            @else
+                <a href="{{ route('sesion.iniciar') }}" class="btn btn-secondary">Iniciar Sesión</a>
+
+
+            @endauth
         </div>
     </div>
 
@@ -69,7 +70,8 @@
                             @endif
                         </td>
                         <td class="d-flex justify-content-center gap-1">
-                            @if(session('user'))
+                            @auth
+                                
                                 @if($torneo->estado)
                                     <form action="{{ route('torneos.cerrar', $torneo->id) }}" method="POST">
                                         @csrf
@@ -83,17 +85,25 @@
                                         <button class="btn btn-sm btn-success">Abrir</button>
                                     </form>
                                 @endif
-                            @endif
+                                    @if(!in_array(session('user')->id, $torneo->users->pluck('id')->toArray()) && $torneo->estado)
+                                        <form action="{{ route('torneos.inscribir', $torneo->id) }}" method="POST">
+                                            @csrf
+                                            <button class="btn btn-sm btn-primary">Inscribirse</button>
+                                        </form>
+
+                                    @endif
+
+                            @endauth
 
                             <a href="{{ route('torneos.show', $torneo->id) }}" class="btn btn-sm btn-info text-white">Ver</a>
 
-                            @if(session('user'))
+                            @auth
                                 <form action="{{ route('torneos.destroy', $torneo->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este torneo?');">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-sm btn-danger">Eliminar</button>
                                 </form>
-                            @endif
+                            @endauth
                         </td>
                     </tr>
                     @endforeach

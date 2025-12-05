@@ -24,26 +24,34 @@
                 @endif
             </p>
             <p><strong>Descripción:</strong> {{ $torneo->descripcion ?? 'Sin descripción' }}</p>
+            <ul>
+                <strong>Participantes:</strong>
+                @forelse($torneo->users as $user)
+                    <li>{{ $user->usuario }}</li>
+                @empty
+                    <li>No hay participantes inscritos.</li>
+                @endforelse
+            </ul>
         </div>
        
         <div class="card-footer d-flex justify-content-between">
-            @if(session('user'))
-            @if($torneo->estado)
-                <form action="{{ route('torneos.cerrar', $torneo->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('PUT')
-                    <button class="btn btn-warning">Cerrar Torneo</button>
-                </form>
-            @else
-                <form action="{{ route('torneos.abrir', $torneo->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('PUT')
-                    <button class="btn btn-success">Abrir Torneo</button>
-                </form>
-            @endif
+            @auth
+                @if($torneo->estado)
+                    <form action="{{ route('torneos.cerrar', $torneo->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('PUT')
+                        <button class="btn btn-warning">Cerrar Torneo</button>
+                    </form>
+                @else
+                    <form action="{{ route('torneos.abrir', $torneo->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('PUT')
+                        <button class="btn btn-success">Abrir Torneo</button>
+                    </form>
+                @endif
 
 
-            @endif
+            @endauth
             <!-- Botón Abrir/Cerrar -->
             
 

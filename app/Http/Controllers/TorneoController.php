@@ -44,6 +44,18 @@ class TorneoController extends Controller
 
         return redirect()->route('torneos.index');
     }
+    public function inscribir(string $id)
+    {
+        $torneo = Torneo::findOrFail($id);
+        $userId = session('user')->id; // Suponiendo que el ID del usuario está almacenado en la sesión
+
+        // Verificar si el usuario ya está inscrito
+        if (!$torneo->users()->where('user_id', $userId)->exists()) {
+            $torneo->users()->attach($userId);
+        }
+
+        return redirect()->route('torneos.index');
+    }
 
 
 

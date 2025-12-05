@@ -36,4 +36,8 @@ class Torneo extends Model
     public function juego(){
         return $this->belongsTo(Juego::class, 'juego_id');
     }
+    public function users(): BelongsToMany{
+        return $this->belongsToMany(User::class,'users_torneos','torneo_id','user_id')->withTimestamps();                 
+    }
+
 }

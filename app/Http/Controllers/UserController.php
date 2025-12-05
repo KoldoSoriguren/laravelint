@@ -6,7 +6,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
-use App\Models\Users;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 class UserController extends Controller
 {
     /**
@@ -27,26 +28,16 @@ class UserController extends Controller
             'usuario' => 'required|string',
             'contrasena' => 'required|string',
         ]);
-
-        // Buscar usuario en la base de datos
-        $user = Users::where('usuario', $credentials['usuario'])
-                    ->where('contrasena', $credentials['contrasena'])
-                    ->first();
-
-        if ($user) {
-            // Guardar datos en la sesión
-            Session::put('user', $user->usuario);
-
-            // Redirigir al dashboard o página principal
+        if (Auth::attempt($credentials)){
             return redirect()->route('torneos.index');
+
         }
 
-        // Si falla, volver con mensaje de error
-        return redirect()->back()->withErrors(['mensaje' => 'Credenciales incorrectas'])->withInput();
+
     }
     public function logout(Request $request){
         // Cerrar sesión
-        Session::forget('user');
+        Auth::logout();
 
         // Redirigir a la página de inicio de sesión
         return redirect()->route('torneos.index');

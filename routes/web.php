@@ -30,3 +30,4 @@ Route::post('/sesion/iniciada', [UserController::class, 'login'])->name('sesion.
 Route::get('/sesion/cerrar', [UserController::class, 'logout'])->name('sesion.cerrar');
 
 Route::post('/idioma/cambiar', [UserController::class, 'cambiarIdioma'])->name('idioma.cambiar');
+Route::put('/torneos/{id}/inscribir', [TorneoController::class, 'inscribir'])->name('torneos.inscribir');
