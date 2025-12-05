@@ -33,7 +33,7 @@ class Torneo extends Model
         'plazas' => 'integer',
         'estado' => 'boolean', // true para "abierto", false para "cerrado"
     ];
-    public function juego(): BelongsTo{
-        return $this->belongsTo(Juego::class, 'juego');
+    public function juego(){
+        return $this->belongsTo(Juego::class, 'juego_id');
     }
 }

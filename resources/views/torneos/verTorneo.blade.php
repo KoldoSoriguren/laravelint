@@ -13,7 +13,7 @@
             <h2>{{ $torneo->titulo }}</h2>
         </div>
         <div class="card-body">
-            <p><strong>Juego:</strong> {{ $torneo->juego }}</p>
+            <p><strong>Juego:</strong> {{ $torneo->juego->nombre }}</p>
             <p><strong>Plazas:</strong> {{ $torneo->plazas }}</p>
             <p>
                 <strong>Estado:</strong> 

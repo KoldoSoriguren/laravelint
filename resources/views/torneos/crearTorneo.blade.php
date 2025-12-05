@@ -24,7 +24,7 @@
 
         <div class="mb-3">
             <label for="juego" class="form-label">Juego</label>
-            <select name="juego" id="juego" class="form-select" required>
+            <select name="juego_id" id="juego" class="form-select" required>
                 @foreach($var as $juego)
                     <option value="{{ $juego->id }}">{{ $juego->nombre }}</option>
                 @endforeach

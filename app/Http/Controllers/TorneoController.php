@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class TorneoController extends Controller
 {
     
-    public static function index(){
+    public function index(){
         $var = Torneo::all();
         return view('torneos.index', ['var'=>$var]);
     }
@@ -28,14 +28,15 @@ class TorneoController extends Controller
      * Store a newly created resource in storage.
         */
     public function store(Request $request){
+
         $validated = $request->validate([
-            'juego' => 'required|exists:juegos,id',
+            'juego_id' => 'required|exists:juegos,id',
             'titulo' => 'required|string|max:255',
             'plazas' => 'required|integer|min:1',
             'estado' => 'required|in:abierto,cerrado',
             'descripcion' => 'nullable|string',
         ]);
-
+        
         // Convertir "abierto"/"cerrado" a boolean
         $validated['estado'] = $validated['estado'] === 'abierto';
 
