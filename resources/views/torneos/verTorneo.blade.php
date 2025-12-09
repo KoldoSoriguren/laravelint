@@ -26,11 +26,12 @@
             <p><strong>Descripción:</strong> {{ $torneo->descripcion ?? 'Sin descripción' }}</p>
             <ul>
                 <strong>Participantes:</strong>
-                @forelse($torneo->users as $user)
-                    <li>{{ $user->usuario }}</li>
+                @forelse($torneo->participantes as $participante)
+                    <li>{{ $participante->nombre }}</li>
                 @empty
                     <li>No hay participantes inscritos.</li>
                 @endforelse
+
             </ul>
         </div>
        
